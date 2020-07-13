@@ -31,7 +31,7 @@ class ProductListAdapter: ListAdapter<ProductDetails, RecyclerView.ViewHolder>(P
         init {
             binding.switch1.setOnClickListener {
                 if (binding.switch1.isChecked){
-                    Log.d(TAG, "switch: checked ")
+                    Log.d(TAG, "switch: checked dddd")
                 }
             }
         }
