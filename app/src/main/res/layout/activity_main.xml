@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.mainView.MainActivity">
 
     <LinearLayout
+        android:id="@+id/top_linear_layout"
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:background="#FFFFFF"
@@ -52,35 +53,29 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="77dp"
-        android:orientation="horizontal"
+
+    <fragment
+        android:id="@+id/fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="2dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/nav_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/top_linear_layout"
+        app:navGraph="@navigation/nav" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navmenu" />
 
-        <Button
-            android:id="@+id/orders_btn"
-            style="@android:style/Widget.Material.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#F44336"
-            android:text="@string/orders"
-            android:textColor="#FFFFFF"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/shop_btn"
-            style="@android:style/Widget.Material.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:text="@string/shop"
-            android:textColor="#F44336"
-            android:textSize="24sp" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

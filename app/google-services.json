@@ -52,6 +52,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "740699200484-tlg51pjat4onj07rsnleiflpq8vr8g1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ekiaartseller",
+            "certificate_hash": "4539e8e704405bac10d1816f4f762bc23d354a15"
+          }
+        },
+        {
           "client_id": "740699200484-i654bi460634imjs2ua87igg4nqbocku.apps.googleusercontent.com",
           "client_type": 3
         }

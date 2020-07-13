@@ -1,4 +1,4 @@
-package com.example.ekiaartseller.mainView.dialogfragment
+package com.example.ekiaartseller.ui.mainView.dialogfragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,8 +9,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.ekiaartseller.data.ProductDetails
 import com.example.ekiaartseller.databinding.FragmentAddProductDialogBinding
-import com.example.ekiaartseller.mainView.MainViewModel
-import com.example.ekiaartseller.mainView.`interface`.INewProduct
+import com.example.ekiaartseller.ui.mainView.MainViewModel
+import com.example.ekiaartseller.ui.interface1.INewProduct
 import com.example.ekiaartseller.util.LoadingDialog
 
 
@@ -46,15 +46,19 @@ class AddProductDialogFragment : DialogFragment(),
 
     private fun onAddBtnPressed() {
         loadingDialog.startLoadingDialog()
-        val productName = binding.productNameInput.toString()
-        val productPrice = binding.productPriceInput.toString()
-        val productSubcategory = binding.productSubCategoryInput.toString()
-        val productDescription = binding.productDescriptionInput.toString()
+        val productName = binding.productNameInput.text.toString()
+        val productPrice = binding.productPriceInput.text.toString().toDouble()
+        val productSubcategory = binding.productSubCategoryInput.text.toString()
+        val productDescription = binding.productDescriptionInput.text.toString()
+        val shopId = viewModel.shopid
+        val productId = viewModel.productId
 
         val productDetails = ProductDetails(productName = productName,
             price = productPrice,
             subCategory = productSubcategory,
-            productDescription = productDescription)
+            productDescription = productDescription,
+            shopId = shopId!!,
+            productId = productId)
         viewModel.addProduct(productDetails)
 
     }

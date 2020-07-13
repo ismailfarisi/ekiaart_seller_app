@@ -5,16 +5,13 @@ import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModel
 import android.util.Log
 import com.example.ekiaartseller.data.ShopDetails
+import com.example.ekiaartseller.ui.interface1.IAuth
+import com.example.ekiaartseller.ui.interface1.IAuthLogin
+import com.example.ekiaartseller.ui.interface1.IDataUpdated
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.*
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.android.awaitFrame
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
-import kotlin.concurrent.timerTask
 
 
 class LoginFragmentViewModel  : ViewModel() {

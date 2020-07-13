@@ -1,4 +1,4 @@
-package com.example.ekiaartseller.ui.auth
+package com.example.ekiaartseller.ui.interface1
 
 interface IAuth {
     fun loginSuccess()

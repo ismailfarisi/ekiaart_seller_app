@@ -12,10 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.ekiaartseller.R
 import com.example.ekiaartseller.databinding.FragmentLoginBinding
+import com.example.ekiaartseller.ui.interface1.IAuthLogin
 import com.example.ekiaartseller.util.LoadingDialog
 
 
-class LoginFragment: Fragment(), IAuthLogin {
+class LoginFragment: Fragment(),
+    IAuthLogin {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.ekiaartseller.R
 import com.example.ekiaartseller.data.ShopDetails
 import com.example.ekiaartseller.databinding.FragmentRegisterBinding
+import com.example.ekiaartseller.ui.interface1.IDataUpdated
 import com.example.ekiaartseller.util.startMainActivity
 
 

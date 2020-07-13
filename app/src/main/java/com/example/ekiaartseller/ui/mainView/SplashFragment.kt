@@ -1,4 +1,4 @@
-package com.example.ekiaartseller.mainView
+package com.example.ekiaartseller.ui.mainView
 
 import android.os.Bundle
 import android.view.LayoutInflater

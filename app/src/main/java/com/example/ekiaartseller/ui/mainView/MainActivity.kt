@@ -1,8 +1,9 @@
-package com.example.ekiaartseller.mainView
+package com.example.ekiaartseller.ui.mainView
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.ekiaartseller.R
 import com.example.ekiaartseller.databinding.ActivityMainBinding
 

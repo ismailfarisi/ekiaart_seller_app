@@ -11,11 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.ekiaartseller.R
 import com.example.ekiaartseller.databinding.FragmentLoginCodeBinding
+import com.example.ekiaartseller.ui.interface1.IAuth
 import com.example.ekiaartseller.util.LoadingDialog
 import com.example.ekiaartseller.util.startMainActivity
 
 
-class LoginCodeFragment : Fragment(), IAuth {
+class LoginCodeFragment : Fragment(),
+    IAuth {
 
     private lateinit var viewModel: LoginFragmentViewModel
     private lateinit var binding: FragmentLoginCodeBinding

@@ -1,4 +1,4 @@
-package com.example.ekiaartseller.ui.`interface`
+package com.example.ekiaartseller.ui.interface1
 
 interface INewProduct {
     fun productAddedSuccessfully()

@@ -6,4 +6,18 @@
     <string name="menu_btn_ctnt_description">menu</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shops">SHOPS</string>
+    <string name="ordersnv">ORDERS</string>
+    <string name="settings">Settings</string>
+    <string name="phone">phone</string>
+    <string name="login">Login</string>
+
+    <string-array name="category_array">
+        <item>Grocery</item>
+        <item>Backery</item>
+        <item>Restaurant</item>
+        <item>Meat 0r Fish</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>
