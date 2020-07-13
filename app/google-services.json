@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "740699200484",
+    "firebase_url": "https://ekiaart.firebaseio.com",
+    "project_id": "ekiaart",
+    "storage_bucket": "ekiaart.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740699200484:android:5e031a516562132a1045f1",
+        "android_client_info": {
+          "package_name": "com.ekiaart.ekiaart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740699200484-n18esr9lrqk9l3l48oj1caogkfbentki.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ekiaart.ekiaart",
+            "certificate_hash": "562f376ca820a788185ad1d8956b57a15f9b4f80"
+          }
+        },
+        {
+          "client_id": "740699200484-i654bi460634imjs2ua87igg4nqbocku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt98-u1GN-UcI222hmTZjgA-LS86KLA7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740699200484-i654bi460634imjs2ua87igg4nqbocku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:740699200484:android:32eed3f7b3bb94a01045f1",
+        "android_client_info": {
+          "package_name": "com.example.ekiaartseller"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "740699200484-i654bi460634imjs2ua87igg4nqbocku.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCt98-u1GN-UcI222hmTZjgA-LS86KLA7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "740699200484-i654bi460634imjs2ua87igg4nqbocku.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
