@@ -1,19 +1,19 @@
 package com.example.ekiaartseller.util
 
-import android.app.Activity
 import android.app.AlertDialog
-import com.example.ekiaartseller.R
+import android.content.Context
+import android.view.LayoutInflater
+import com.example.ekiaartseller.databinding.LoadingDialogBinding
 
-class LoadingDialog (activity: Activity){
+class LoadingDialog (context: Context){
 
     lateinit var alertDialog: AlertDialog
-    val activity = activity
-
+    val context = context
+    private lateinit var binding : LoadingDialogBinding
     fun startLoadingDialog (){
-        val builder = AlertDialog.Builder(activity)
-        val inflater = activity.layoutInflater
-
-        builder.setView(inflater.inflate(R.layout.loading_dialog,null))
+        val builder = AlertDialog.Builder(context)
+        binding = LoadingDialogBinding.inflate(LayoutInflater.from(context))
+        builder.setView(binding.root)
         builder.setCancelable(true)
 
         alertDialog = builder.create()

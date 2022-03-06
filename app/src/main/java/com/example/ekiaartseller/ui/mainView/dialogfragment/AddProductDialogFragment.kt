@@ -4,22 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.ekiaartseller.data.ProductDetails
 import com.example.ekiaartseller.databinding.FragmentAddProductDialogBinding
-import com.example.ekiaartseller.ui.mainView.MainViewModel
-import com.example.ekiaartseller.ui.interface1.INewProduct
-import com.example.ekiaartseller.util.LoadingDialog
+import com.example.ekiaartseller.domain.ProductDetails
+import com.example.ekiaartseller.ui.mainView.ShopViewModel
 
 
-class AddProductDialogFragment : DialogFragment(),
-    INewProduct {
+class AddProductDialogFragment : DialogFragment(){
 
     private lateinit var binding: FragmentAddProductDialogBinding
-    private lateinit var viewModel: MainViewModel
-    private lateinit var loadingDialog: LoadingDialog
+    private lateinit var viewModel: ShopViewModel
+    private lateinit var listener : NoticeDialogListener
 
 
 
@@ -29,14 +25,14 @@ class AddProductDialogFragment : DialogFragment(),
     ): View? {
         binding = FragmentAddProductDialogBinding.inflate(inflater,container,false)
         val view = binding.root
+        listener = targetFragment as NoticeDialogListener
 
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.iNewProduct = this
-        loadingDialog = LoadingDialog(requireActivity())
+        viewModel = ViewModelProvider(this).get(ShopViewModel::class.java)
+
 
         binding.productAddBtn.setOnClickListener { onAddBtnPressed() }
         binding.productCanceladdingBtn.setOnClickListener {
-            dialog?.cancel()
+            listener.onDialogNegativeClick(this)
         }
 
 
@@ -45,36 +41,23 @@ class AddProductDialogFragment : DialogFragment(),
     }
 
     private fun onAddBtnPressed() {
-        loadingDialog.startLoadingDialog()
+
         val productName = binding.productNameInput.text.toString()
         val productPrice = binding.productPriceInput.text.toString().toDouble()
         val productSubcategory = binding.productSubCategoryInput.text.toString()
         val productDescription = binding.productDescriptionInput.text.toString()
-        val shopId = viewModel.shopid
-        val productId = viewModel.productId
 
-        val productDetails = ProductDetails(productName = productName,
+        val productDetails = ProductDetails(
+            productName = productName,
             price = productPrice,
             subCategory = productSubcategory,
-            productDescription = productDescription,
-            shopId = shopId!!,
-            productId = productId)
-        viewModel.addProduct(productDetails)
+            productDescription = productDescription
+        )
+        listener.onDialogPositiveClick(this,productDetails)
 
     }
-
-    override fun productAddedSuccessfully() {
-        Toast.makeText(requireContext(),"product added successfully",Toast.LENGTH_SHORT).show()
-        loadingDialog.stopLoadingDialog()
-        dialog?.cancel()
-
-    }
-
-    override fun productAddingFailed() {
-        Toast.makeText(requireContext(),"product added failed",Toast.LENGTH_SHORT).show()
-        loadingDialog.stopLoadingDialog()
-        dialog?.cancel()
-    }
-
-
+    interface NoticeDialogListener {
+        fun onDialogPositiveClick(dialog: DialogFragment, productDetails: ProductDetails)
+        fun onDialogNegativeClick(dialog: DialogFragment)
+        }
 }

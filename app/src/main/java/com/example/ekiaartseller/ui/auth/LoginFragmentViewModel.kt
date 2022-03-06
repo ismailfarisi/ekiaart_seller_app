@@ -1,73 +1,42 @@
 package com.example.ekiaartseller.ui.auth
 
 import android.app.Activity
-import android.content.ContentValues.TAG
-import androidx.lifecycle.ViewModel
 import android.util.Log
-import com.example.ekiaartseller.data.ShopDetails
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.ekiaartseller.domain.Result
+import com.example.ekiaartseller.domain.ShopDetails
+import com.example.ekiaartseller.data.UserRepository
 import com.example.ekiaartseller.ui.interface1.IAuth
 import com.example.ekiaartseller.ui.interface1.IAuthLogin
-import com.example.ekiaartseller.ui.interface1.IDataUpdated
+import com.example.ekiaartseller.util.TAG
 import com.google.firebase.FirebaseException
-import com.google.firebase.auth.*
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 
 
-class LoginFragmentViewModel  : ViewModel() {
+class LoginFragmentViewModel(
+    private val repository: UserRepository,
+    private val iAuthLogin: IAuthLogin?
+)  : ViewModel() {
+
+
+    lateinit var storedVerificationId: String
+    lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
+
+    var iAuth:IAuth? = null
 
 
 
 
-    private val auth :FirebaseAuth = FirebaseAuth.getInstance()
-    private val firestore : FirebaseFirestore = FirebaseFirestore.getInstance()
-    lateinit var  storedVerificationId :String
-    lateinit var resendToken :PhoneAuthProvider.ForceResendingToken
-    lateinit var callbacks : PhoneAuthProvider.OnVerificationStateChangedCallbacks
-    var iAuth : IAuth? = null
-    var iAuthLogin : IAuthLogin? =null
-    var iDataUpdated : IDataUpdated? = null
 
 
-    val currentUser = auth.currentUser
-    fun registerData(data: ShopDetails){
-        val v = data.toString()
-        val uid = auth.currentUser?.uid.toString()
-
-        Log.d(TAG, "registerData: $v")
-        firestore.collection("shopdetails").document(uid).set(data)
-            .addOnSuccessListener {
-                Log.d(TAG, "Data: wrote succeffully ")
-                iDataUpdated?.onSuccess()
-            }.addOnFailureListener {
-                Log.d(TAG, "Data: error $it")
-                iDataUpdated?.onFailure()
-            }
-    }
-
-
-    fun login(phno1: String,context:Activity){
-       Log.d(TAG, "login: $phno1")
-
-
-        verificationCallBacks()
-        try {
-
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                phno1,
-                60,
-                TimeUnit.SECONDS,
-                context, callbacks
-            )
-
-            Log.d(TAG, "login: ph")
-        }catch (e:Exception){
-
-        }
-
-   }
-
-    private fun verificationCallBacks(){
+    fun loginPhoneOtpRequest(phno1: String, context: Activity) {
+        val callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(p0, p1)
@@ -79,79 +48,61 @@ class LoginFragmentViewModel  : ViewModel() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
                 Log.d(TAG, "onVerificationCompleted: ")
                 try {
-                    signInWithPhoneAuthCredential(credential)
-                }catch (e:FirebaseException){}
+                    viewModelScope.launch(Dispatchers.IO) { loginProgress(credential) }
+                } catch (e: FirebaseException) {
+                }
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
                 Log.d(TAG, "onVerificationFailed: ")
-                if (e is FirebaseAuthInvalidCredentialsException){
+                if (e is FirebaseAuthInvalidCredentialsException) {
                     iAuthLogin?.verificationFailed()
                 }
             }
 
         }
+        try {
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                phno1,
+                60,
+                TimeUnit.SECONDS,
+                context, callbacks
+            )
+        } catch (e: Exception) {
+
+        }
     }
-   
 
 
-    fun verifyCode(code: String){
-        Log.d(TAG, "verifyCode: $code vercode : $storedVerificationId ")
-
-
+    fun verifyCode(code: String) {
         try {
             val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
-            signInWithPhoneAuthCredential(credential)
-        }catch (e:Exception){
+            viewModelScope.launch(Dispatchers.IO) { loginProgress(credential) }
+        } catch (e: Exception) {
 
         }
     }
+    fun regiterData(data : ShopDetails){
+        viewModelScope.launch(Dispatchers.IO) { repository.registerData(data) }
 
+    }
 
-
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithCredential:success")
-
-                    val user = task.result?.user
-
-
-                    Log.d(TAG, "detail exist:  uid :${user?.uid}")
-                    if (task.result?.additionalUserInfo!!.isNewUser ){
-                        iAuth?.newUserRegister()
-                    }else {
-                        checkShopDetailExist(user!!)
-                    }
-                    // ...
-                } else {
-                    // Sign in failed, display a message and update the UI
-                    Log.w(TAG, "signInWithCredential:failure", task.exception)
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-
-                    }
+    suspend fun loginProgress (credential: PhoneAuthCredential){
+        val result = repository.signInWithPhone(credential)
+        when(result){
+            is Result.Success -> {
+                when(result.data){
+                    true ->  iAuth?.loginSuccess()
+                    false -> iAuth?.newUserRegister()
                 }
             }
-    }
-    private fun checkShopDetailExist(user : FirebaseUser){
-        val uid = user.uid
-
-        firestore.collection("shopdetails").document(uid).get().addOnSuccessListener {
-            val y = it.exists()
-            Log.d(TAG, "checkShopDetailExist: ${y}")
-            if (y){
-                iAuth?.loginSuccess()
-            }else{
-                iAuth?.newUserRegister()
-            }
+            is Result.Error -> iAuth?.loginFailed()
         }
-
-
-
     }
+
+
+
+
 }
 
 

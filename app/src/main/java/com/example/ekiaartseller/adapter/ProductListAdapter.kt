@@ -1,15 +1,17 @@
 package com.example.ekiaartseller.adapter
 
 
-import android.content.ContentValues.TAG
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.ekiaartseller.data.ProductDetails
+import com.example.ekiaartseller.domain.ProductDetails
 import com.example.ekiaartseller.databinding.ProductListItemBinding
+import com.example.ekiaartseller.util.TAG
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ProductListAdapter: ListAdapter<ProductDetails, RecyclerView.ViewHolder>(ProductDiffCallback()) {
 
@@ -28,18 +30,24 @@ class ProductListAdapter: ListAdapter<ProductDetails, RecyclerView.ViewHolder>(P
 
 
     class ProductListViewHolder(private val binding: ProductListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        private lateinit var productId : String
         init {
             binding.switch1.setOnClickListener {
+                val firestore = FirebaseFirestore.getInstance()
                 if (binding.switch1.isChecked){
-                    Log.d(TAG, "switch: checked dddd")
+                    Log.d(TAG, "ggggggg$productId: ")
+                    firestore.collection("productdetails").document(productId).update("available",true)
+                }else{
+                    firestore.collection("productdetails").document(productId).update("available",false)
                 }
             }
         }
-        fun bind(item :ProductDetails){
+        fun bind(item : ProductDetails){
+            productId = item.productId!!
             binding.productName.text = item.productName
             binding.productDescription.text = item.productDescription
-            binding.ratingBar.rating = item.avgRating.toFloat()
-            binding.switch1.isActivated = item.available
+            binding.ratingBar.rating = item.avgRating ?:3.5F
+            binding.switch1.isChecked = item.available?:true
         }
 
 

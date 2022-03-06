@@ -14,16 +14,16 @@
         android:id="@+id/shopFragment"
         android:name="com.example.ekiaartseller.ui.mainView.ShopFragment"
         android:label="fragment_shop"
-        tools:layout="@layout/fragment_shop" />
-    <fragment
-        android:id="@+id/settingsFragment"
-        android:name="com.example.ekiaartseller.ui.mainView.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_shop" >
         <action
-            android:id="@+id/nav_to_addProductDialog"
+            android:id="@+id/action_shopFragment_to_addProductDialogFragment"
             app:destination="@id/addProductDialogFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.ekiaartseller.ui.mainView.ShopSettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
     <dialog
         android:id="@+id/addProductDialogFragment"
         android:name="com.example.ekiaartseller.ui.mainView.dialogfragment.AddProductDialogFragment"
